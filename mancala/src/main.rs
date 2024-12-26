@@ -187,15 +187,43 @@ fn main() -> Result<(), Box<dyn Error>> {
     println!("{}\n", game);
 
     'game: loop {
-        println!("Player A's turn\n");
+        println!("____________\nPlayer A's turn");
 
         while game.player == Player::A {
-            print!("Hole number: ");
-            stdout().flush()?;
-            let mut action = String::new();
-            stdin().read_line(&mut action)?;
-            let action = action.trim().parse()?;
-            game = search.do_action(action)?;
+            let mut input = String::new();
+            let mut parsed = "".parse();
+            let mut action;
+
+            while parsed.is_err() {
+                println!("\nPlease input a non-negative number.");
+                print!("Pit number: ");
+                stdout().flush()?;
+                input.clear();
+                stdin().read_line(&mut input)?;
+                parsed = input.trim().parse();
+            }
+
+            action = parsed?;
+            let mut done = search.do_action(action);
+
+            while done.is_err() {
+                println!("That is an invalid move!");
+                parsed = "".parse();
+
+                while parsed.is_err() {
+                    println!("\nPlease input a non-negative number.");
+                    print!("Pit number: ");
+                    stdout().flush()?;
+                    input.clear();
+                    stdin().read_line(&mut input)?;
+                    parsed = input.trim().parse();
+                }
+
+                action = parsed?;
+                done = search.do_action(action);
+            }
+
+            game = done?;
             println!("{}\n", game);
             // let mut acts = Vec::new();
             // let instant = Instant::now();
@@ -216,7 +244,7 @@ fn main() -> Result<(), Box<dyn Error>> {
             }
         }
 
-        println!("Player B's turn\n");
+        println!("____________\nPlayer B's turn\n");
 
         while game.player == Player::B {
             let mut acts = Vec::new();
@@ -229,9 +257,9 @@ fn main() -> Result<(), Box<dyn Error>> {
                 Some(a) => *a,
                 None => break,
             };
-            println!("Hole number: {}", hole);
             game = search.do_action(hole)?;
             println!("{}\n", game);
+            println!("Pit number: {}\n\n", hole);
             if let Some(score) = game.get_player_final_scores() {
                 println!("{:#?}", score);
                 break 'game;
