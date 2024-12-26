@@ -30,7 +30,7 @@ The board is initialised as
 4 4
  0
 ```
-I make move 2.
+I make move 2. The stones are taken from the pit third furtherst from my own store and sowed in order. According to the rules, I get a free move since the last stone landed in my store.
 ```
  0 
 4 4
@@ -41,9 +41,7 @@ I make move 2.
 5 4
  1
 ```
-The stones are taken from the pit third furtherst from my own store and sowed in order. According to the rules, I get a free move since the last stone landed in my store.
-
-I make move 1.
+I make move 1. Again, the stones are removed from the pit second furthest from my own store.
 ```
  0 
 4 4
@@ -54,8 +52,6 @@ I make move 1.
 6 4
  1
 ```
-Again, the stones are removed from the pit second furthest from my own store.
-
 It's the computer's turn now. It makes move 2, earning a free move.
 ```
  1 
